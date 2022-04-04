@@ -1,0 +1,16 @@
+name: .NET Build
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup MSBuild
+      uses: warrenbuckley/Setup-MSBuild@v1
+    - name: Add Beat Saber DLLs
+      uses: beat-saber-modding-group/action-beat-saber-dlls@v1
+    - name: Install dependencies
+      run: msbuild -t:restore
+    - name: Build project
+      run: msbuild /t:Build /p:Configuration=Release /p:ReferencePath="D:\beat-saber-dlls"
